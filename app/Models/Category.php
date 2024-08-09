@@ -38,4 +38,34 @@ class Category extends Model
     {
         return $this->morphMany(Discount::class, 'discountable');
     }
+
+    // the helper methods -------------------------------------------------
+    public function hasMixedChildren()
+    {
+        return $this->children()->exists() && $this->items()->exists();
+    }
+
+    public function level()
+    {
+        $level = 0;
+        $parent = $this->parent;
+        while ($parent) {
+            $level++;
+            $parent = $parent->parent;
+        }
+        return $level;
+    }
+
+    public function getClosestDiscount()
+    {
+        if ($this->discount) {
+            return $this->discount->discount_value;
+        }
+
+        if ($this->parent) {
+            return $this->parent->getClosestDiscount();
+        }
+
+        return null;
+    }
 }

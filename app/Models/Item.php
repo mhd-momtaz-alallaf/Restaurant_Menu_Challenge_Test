@@ -28,4 +28,14 @@ class Item extends Model
     {
         return $this->morphMany(Discount::class, 'discountable');
     }
+
+    // the helper methods -------------------------------------------------
+    public function getClosestDiscount()
+    {
+        if ($this->discount) {
+            return $this->discount->discount_value;
+        }
+
+        return $this->category->getClosestDiscount();
+    }
 }
