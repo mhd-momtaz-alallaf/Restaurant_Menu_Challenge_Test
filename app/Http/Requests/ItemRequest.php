@@ -22,7 +22,10 @@ class ItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+            'user_id' => 'required|exists:users,id'
         ];
     }
 }
