@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('item_id')->nullable();
+            $table->decimal('discount_value', 5, 2);
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
         });
     }
 

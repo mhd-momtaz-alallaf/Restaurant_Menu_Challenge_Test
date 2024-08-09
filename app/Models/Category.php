@@ -25,4 +25,9 @@ class Category extends Model
     {
         return $this->hasMany(Item::class);
     }
+
+    public function discount()
+    {
+        return $this->hasOne(Discount::class);
+    }
 }
