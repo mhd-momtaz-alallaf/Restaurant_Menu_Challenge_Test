@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Discount extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type', 'category_id', 'item_id', 'discount_value'];
+    protected $fillable = [
+        'discount_value',
+        'user_id',
+        'discountable_id',
+        'discountable_type'
+    ];
 
-    public function category()
+    public function discountable(): MorphTo
     {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function item()
-    {
-        return $this->belongsTo(Item::class);
+        return $this->morphTo();
     }
 }

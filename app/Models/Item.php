@@ -4,20 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Item extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'category_id'];
+    protected $fillable = [
+        'name',
+        'price',
+        'category_id',
+        'user_id',
+    ];
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function discount()
+    // the polymorphic relation to handle discounts.
+    public function discounts(): MorphMany
     {
-        return $this->hasOne(Discount::class);
+        return $this->morphMany(Discount::class, 'discountable');
     }
 }
