@@ -13,17 +13,17 @@ class CategoryController extends Controller
         $parent = Category::find($request->parent_id);
 
         if ($parent) {
-            // ensuring no mixed children.
-            if ($parent->hasMixedChildren()) {
-                return response()->json([
-                    'error' => 'Cannot add subcategory or item to a category with mixed children!'
-                ], 422);
-            }
-
             // ensuring the maximum level 4 is not exceeded.
             if ($parent->level() >= 3) { // 3 because the current category will be level 4
                 return response()->json([
-                    'error' => 'Maximum subcategory level of 4 exceeded!'
+                    'message' => 'Maximum subcategory level of 4 exceeded!'
+                ], 422);
+            }
+
+            // ensuring no mixed children.
+            if ($parent->hasItems()) {
+                return response()->json([
+                    'message' => 'Cannot add subcategory or item to a category with mixed children!'
                 ], 422);
             }
         }
@@ -36,7 +36,7 @@ class CategoryController extends Controller
 
         return response()->json([
             'message' => $request->parent_id ? 'Subcategory created successfully!' : 'Category created successfully!',
-            'category' => $category,
+            'data' => $category,
         ], 201);
     }
 }

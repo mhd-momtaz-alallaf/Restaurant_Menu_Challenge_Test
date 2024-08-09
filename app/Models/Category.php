@@ -40,9 +40,14 @@ class Category extends Model
     }
 
     // the helper methods -------------------------------------------------
-    public function hasMixedChildren()
+    public function hasSubcategories()
     {
-        return $this->children()->exists() && $this->items()->exists();
+        return $this->children()->exists();
+    }
+
+    public function hasItems()
+    {
+        return $this->items()->exists();
     }
 
     public function level()
