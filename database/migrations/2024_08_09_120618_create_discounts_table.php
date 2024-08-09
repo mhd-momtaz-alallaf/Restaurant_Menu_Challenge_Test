@@ -16,6 +16,9 @@ return new class extends Migration
             $table->decimal('discount_value', 5, 2);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->morphs('discountable');
+
+            // Adding a unique constraint on discountable_type and discountable_id together.
+            $table->unique(['discountable_type', 'discountable_id']);
             $table->timestamps();
         });
     }
