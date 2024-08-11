@@ -32,8 +32,8 @@ class Item extends Model
     // the helper methods -------------------------------------------------
     public function getClosestDiscount()
     {
-        if ($this->discount) {
-            return $this->discount->discount_value;
+        if ($this->discounts) {
+            return $this->discounts->discount_value;
         }
 
         return $this->category->getClosestDiscount();

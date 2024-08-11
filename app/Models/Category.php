@@ -25,7 +25,7 @@ class Category extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->hasMany(Category::class, 'parent_id')->with('children', 'items.discounts', 'discounts');
     }
 
     public function items(): HasMany
@@ -37,6 +37,11 @@ class Category extends Model
     public function discounts(): MorphMany
     {
         return $this->morphMany(Discount::class, 'discountable');
+    }
+
+    public function scopeOfUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
     }
 
     // the helper methods -------------------------------------------------
@@ -63,8 +68,8 @@ class Category extends Model
 
     public function getClosestDiscount()
     {
-        if ($this->discount) {
-            return $this->discount->discount_value;
+        if ($this->discounts) {
+            return $this->discounts->discount_value;
         }
 
         if ($this->parent) {
