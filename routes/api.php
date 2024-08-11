@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 // Auth Endpoints ------------------------------------------------------------------------
@@ -13,20 +14,31 @@ Route::controller(AuthController::class)->group(function() {
     Route::middleware('auth:sanctum')->post('/logout', 'logout');
 });
 
-// Category Endpoints --------------------------------------------------------------------
-Route::controller(CategoryController::class)->group(function() {
-    // storing new category endpoint.
-    Route::post('/categories','store');
-});
+Route::middleware('auth:sanctum')->group(function() {
+    // Category Endpoints --------------------------------------------------------------------
+    Route::controller(CategoryController::class)->group(function() {
+        // storing new category endpoint.
+        Route::post('/categories','store');
+    });
 
-// Item Endpoints ------------------------------------------------------------------------
-Route::controller(ItemController::class)->group(function() {
-    // storing new item endpoint.
-    Route::post('/items','store');
-});
+    // Item Endpoints ------------------------------------------------------------------------
+    Route::controller(ItemController::class)->group(function() {
+        // storing new item endpoint.
+        Route::post('/items','store');
+    });
 
-// Discount Endpoints --------------------------------------------------------------------
-Route::controller(DiscountController::class)->group(function() {
-    // storing new discount endpoint.
-    Route::post('/discounts','store');
+    // Discount Endpoints --------------------------------------------------------------------
+    Route::controller(DiscountController::class)->group(function() {
+        // storing new discount endpoint.
+        Route::post('/discounts','store');
+    });
+
+    // Menu Endpoints ------------------------------------------------------------------------
+    Route::controller(MenuController::class)->group(function() {
+        // finalizing the menu endpoint.
+        Route::post('/menu/finalize', 'finalizeMenu');
+
+        // get the menu endpoint.
+        Route::get('/menu', 'index');
+    });
 });
