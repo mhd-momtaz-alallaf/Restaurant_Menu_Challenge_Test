@@ -19,12 +19,18 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::controller(CategoryController::class)->group(function() {
         // storing new category endpoint.
         Route::post('/categories','store');
+
+        // Showing all categories endpoint.
+        Route::get('/categories', 'index');
     });
 
     // Item Endpoints ------------------------------------------------------------------------
     Route::controller(ItemController::class)->group(function() {
         // storing new item endpoint.
         Route::post('/items','store');
+
+        // Showing all Items endpoint.
+        Route::get('/items', 'index');
     });
 
     // Discount Endpoints --------------------------------------------------------------------

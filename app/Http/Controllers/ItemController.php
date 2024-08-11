@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
+    public function index()
+    {
+        return Item::with('category', 'discounts')->get();
+    }
+
     public function store(ItemRequest $request)
     {
         $category = Category::find($request->category_id);

@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function index()
+    {
+        return Category::with('children', 'items.discounts', 'discounts');
+    }
+
     public function store(CategoryRequest $request)
     {
         $parent = Category::find($request->parent_id);
