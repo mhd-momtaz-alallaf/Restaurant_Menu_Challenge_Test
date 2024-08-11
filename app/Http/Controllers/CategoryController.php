@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Category::with('children', 'items.discounts', 'discounts');
+        $categories = Category::ofUser($request->user()->id)
+            ->with(['children', 'items']) // Load relationships recursively
+            ->get();
+
+        return response()->json($categories);
     }
 
     public function store(CategoryRequest $request)

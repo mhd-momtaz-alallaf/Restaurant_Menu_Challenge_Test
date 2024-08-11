@@ -9,9 +9,13 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Item::with('category', 'discounts')->get();
+        $items = Item::ofUser($request->user()->id)
+            ->with(['category', 'discounts']) // Load relationships recursively
+            ->get();
+
+        return response()->json($items);
     }
 
     public function store(ItemRequest $request)

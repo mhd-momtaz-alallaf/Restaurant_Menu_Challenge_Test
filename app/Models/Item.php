@@ -29,6 +29,11 @@ class Item extends Model
         return $this->morphMany(Discount::class, 'discountable');
     }
 
+    public function scopeOfUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
     // the helper methods -------------------------------------------------
     public function getClosestDiscount()
     {
